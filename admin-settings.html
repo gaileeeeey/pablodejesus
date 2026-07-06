@@ -1,0 +1,1047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Settings | Pablo-De Jesus Dental Center</title>
+    <link rel="stylesheet" href="admin-css/admin-setting.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── additional styles for email and dentist management ─── */
+        .email-display {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            background: #f0f5ff;
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .form-input.success {
+            border-color: var(--green) !important;
+            background: #f0faf5 !important;
+        }
+        .form-input.error {
+            border-color: #e74c3c !important;
+            background: #fdf0ef !important;
+        }
+        .form-feedback {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 4px;
+            min-height: 1.2rem;
+        }
+        .form-feedback.success {
+            color: var(--green);
+        }
+        .form-feedback.error {
+            color: #e74c3c;
+        }
+        .form-feedback.hidden {
+            visibility: hidden;
+        }
+
+        .btn-update-email {
+            background: var(--teal);
+            color: #ffffff;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            width: 100%;
+        }
+        .btn-update-email:hover {
+            background: var(--teal-dark);
+        }
+        .btn-update-email:active {
+            transform: scale(0.97);
+        }
+
+        /* ─── DENTIST MANAGEMENT TABLE ─── */
+        .dentist-table-wrapper {
+            overflow-x: auto;
+            margin-top: 8px;
+        }
+
+        .dentist-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        .dentist-table thead {
+            background: #f8fafc;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .dentist-table th {
+            text-align: left;
+            padding: 12px 14px;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            border-bottom: 2px solid #E8EEF5;
+        }
+
+        .dentist-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #f0f2f5;
+            color: var(--text-dark);
+            font-weight: 500;
+            vertical-align: middle;
+        }
+
+        .dentist-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .dentist-table .status-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            background: var(--green-bg-1);
+            color: var(--green);
+        }
+
+        .dentist-table .status-badge.inactive {
+            background: #fde2e2;
+            color: #e74c3c;
+        }
+
+        .dentist-table .actions-cell {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .dentist-table .actions-cell .action-btn {
+            background: none;
+            border: none;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 600;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .dentist-table .actions-cell .action-btn.view {
+            background: #d7e9fb;
+            color: var(--navy);
+        }
+        .dentist-table .actions-cell .action-btn.view:hover {
+            background: #b5d4f0;
+        }
+
+        .dentist-table .actions-cell .action-btn.edit {
+            background: #e8ecf1;
+            color: var(--text-dark);
+        }
+        .dentist-table .actions-cell .action-btn.edit:hover {
+            background: #d5dbe3;
+        }
+
+        .dentist-table .actions-cell .action-btn.suspend {
+            background: #fde2e2;
+            color: #e74c3c;
+        }
+        .dentist-table .actions-cell .action-btn.suspend:hover {
+            background: #fccccc;
+        }
+
+        .dentist-table .actions-cell .action-btn.delete {
+            background: #fde2e2;
+            color: #dc2626;
+        }
+        .dentist-table .actions-cell .action-btn.delete:hover {
+            background: #fccccc;
+        }
+
+        .btn-create-dentist {
+            background: var(--navy);
+            color: #ffffff;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .btn-create-dentist:hover {
+            background: var(--teal-dark);
+        }
+        .btn-create-dentist:active {
+            transform: scale(0.96);
+        }
+
+        .dentist-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+
+        .dentist-section-header h2 {
+            margin-bottom: 0;
+        }
+
+        .dentist-name-link {
+            color: var(--navy);
+            font-weight: 700;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .dentist-name-link:hover {
+            color: var(--teal-dark);
+            text-decoration: underline;
+        }
+
+        /* ─── VIEW DENTIST MODAL ─── */
+        .view-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 400;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .view-modal-overlay.active {
+            display: flex;
+        }
+
+        .view-modal {
+            background: #ffffff;
+            border-radius: 28px;
+            max-width: 580px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 36px 40px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+            animation: slideUp 0.3s ease;
+        }
+
+        .view-modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E8EEF5;
+        }
+
+        .view-modal .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .view-modal .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .view-modal .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .view-modal .view-section {
+            margin-bottom: 18px;
+        }
+
+        .view-modal .view-section h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 1.5px solid #f0f2f5;
+        }
+
+        .view-modal .view-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid #f5f6f8;
+        }
+        .view-modal .view-row:last-child {
+            border-bottom: none;
+        }
+
+        .view-modal .view-row .view-label {
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .view-modal .view-row .view-value {
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            text-align: right;
+        }
+
+        .view-modal .view-status {
+            display: inline-block;
+            padding: 2px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            background: var(--green-bg-1);
+            color: var(--green);
+        }
+        .view-modal .view-status.inactive {
+            background: #fde2e2;
+            color: #e74c3c;
+        }
+
+        .view-modal .view-days {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: flex-end;
+        }
+        .view-modal .view-days span {
+            background: #e8ecf1;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .view-modal .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1.5px solid #E8EEF5;
+        }
+
+        .view-modal .modal-actions .btn-back {
+            background: #f3f4f6;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Baloo 2', sans-serif;
+        }
+        .view-modal .modal-actions .btn-back:hover {
+            background: #e5e7eb;
+        }
+
+        .view-modal .modal-actions .btn-edit-account {
+            background: var(--navy);
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Baloo 2', sans-serif;
+        }
+        .view-modal .modal-actions .btn-edit-account:hover {
+            background: var(--teal-dark);
+        }
+
+        /* ─── EDIT DENTIST MODAL ─── */
+        .edit-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 500;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.25s ease;
+        }
+        .edit-modal-overlay.active {
+            display: flex;
+        }
+
+        .edit-modal {
+            background: #ffffff;
+            border-radius: 28px;
+            max-width: 620px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 36px 40px 32px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.20);
+            animation: slideUp 0.3s ease;
+        }
+
+        .edit-modal .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #E8EEF5;
+        }
+
+        .edit-modal .modal-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .edit-modal .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .edit-modal .modal-close:hover {
+            color: var(--text-dark);
+        }
+
+        .edit-modal .edit-section {
+            margin-bottom: 18px;
+        }
+
+        .edit-modal .edit-section h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 10px;
+            padding-bottom: 4px;
+            border-bottom: 1.5px solid #f0f2f5;
+        }
+
+        .edit-modal .form-group {
+            margin-bottom: 14px;
+        }
+
+        .edit-modal .form-group label {
+            display: block;
+            font-weight: 700;
+            color: var(--text-dark);
+            font-size: 0.9rem;
+            margin-bottom: 3px;
+        }
+
+        .edit-modal .form-group input,
+        .edit-modal .form-group select {
+            width: 100%;
+            padding: 10px 14px;
+            border: 2px solid #E8EEF5;
+            border-radius: 12px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 0.95rem;
+            background: #f9fafb;
+            transition: border-color 0.2s, background 0.2s;
+            color: var(--text-dark);
+        }
+
+        .edit-modal .form-group input:focus,
+        .edit-modal .form-group select:focus {
+            outline: none;
+            border-color: var(--navy);
+            background: #ffffff;
+        }
+
+        .edit-modal .form-group input::placeholder {
+            color: var(--text-faint);
+        }
+
+        .edit-modal .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .edit-modal .days-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .edit-modal .days-grid label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 2px solid #E8EEF5;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .edit-modal .days-grid label:hover {
+            background: #f0f5ff;
+        }
+
+        .edit-modal .days-grid label.checked {
+            border-color: var(--navy);
+            background: #f0f5ff;
+        }
+
+        .edit-modal .days-grid input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--navy);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .edit-modal .status-radio-group {
+            display: flex;
+            gap: 24px;
+            padding-top: 4px;
+        }
+
+        .edit-modal .status-radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            cursor: pointer;
+        }
+
+        .edit-modal .status-radio-group input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--navy);
+            cursor: pointer;
+        }
+
+        .edit-modal .modal-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1.5px solid #E8EEF5;
+        }
+
+        .edit-modal .modal-actions .btn-cancel {
+            background: #f3f4f6;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Baloo 2', sans-serif;
+        }
+        .edit-modal .modal-actions .btn-cancel:hover {
+            background: #e5e7eb;
+        }
+
+        .edit-modal .modal-actions .btn-save {
+            background: var(--green);
+            border: none;
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: #ffffff;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: 'Baloo 2', sans-serif;
+        }
+        .edit-modal .modal-actions .btn-save:hover {
+            background: #0d6b2f;
+        }
+
+        @media (max-width: 768px) {
+            .dentist-table-wrapper {
+                overflow-x: auto;
+            }
+            .dentist-table {
+                font-size: 0.8rem;
+                min-width: 700px;
+            }
+            .dentist-table th,
+            .dentist-table td {
+                padding: 8px 10px;
+            }
+            .dentist-table .actions-cell .action-btn {
+                font-size: 0.65rem;
+                padding: 2px 8px;
+            }
+            .dentist-section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .btn-create-dentist {
+                width: 100%;
+                justify-content: center;
+            }
+            .view-modal,
+            .edit-modal {
+                padding: 24px 20px 28px;
+                max-width: 100%;
+                margin: 10px;
+            }
+            .edit-modal .form-row {
+                grid-template-columns: 1fr;
+            }
+            .edit-modal .days-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .view-modal .modal-actions,
+            .edit-modal .modal-actions {
+                flex-direction: column;
+            }
+            .view-modal .modal-actions .btn-back,
+            .view-modal .modal-actions .btn-edit-account,
+            .edit-modal .modal-actions .btn-cancel,
+            .edit-modal .modal-actions .btn-save {
+                width: 100%;
+                justify-content: center;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .edit-modal .days-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .edit-modal .status-radio-group {
+                flex-direction: column;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ─── SIDEBAR TOGGLE (mobile) ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+    <!-- ─── SIDEBAR OVERLAY ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>Pablo-De Jesus<br /><span>Dental Center</span></h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dash.html"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="admin-appointment.html"><i class="bi bi-person-vcard"></i> Appointments</a>
+            <a href="admin-book-appointment.html"><i class="bi bi-calendar2-plus"></i> Book Appointment</a>
+            <a href="admin-services.html"><i class="fa-solid fa-tooth"></i> Services</a>
+            <a href="admin-patients.html"><i class="bi bi-people"></i> Patients</a>
+            <a href="admin-billing.html"><i class="bi bi-receipt"></i> Billing</a>
+            <a href="admin-inventory.html"><i class="bi bi-box-seam"></i> Inventory</a>
+            <a href="admin-chatbox.html"><i class="bi bi-chat-dots"></i> Chatbox</a>
+            <a href="admin-feedback.html"><i class="bi bi-star-fill"></i> Feedback</a>
+            <a href="#" class="active"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="greeting">
+                <h1>Settings</h1>
+                <p>Manage your account settings and preferences</p>
+            </div>
+            <div class="user-actions" onclick="window.location.href='admin-settings.html'">
+                <span class="user-name">Admin Womark</span>
+                <i class="bi bi-person-circle user-avatar"></i>
+            </div>
+        </div>
+
+        <!-- ─── SETTINGS GRID ─── -->
+        <div class="settings-grid">
+
+            <!-- Admin User Card with Avatar -->
+            <div class="settings-card admin-card">
+                <div class="admin-header">
+                    <div class="admin-avatar">A</div>
+                    <div class="admin-info">
+                        <h2>Admin User</h2>
+                        <p class="card-subtitle">Dental Administrator</p>
+                    </div>
+                </div>
+                <div class="info-row">
+                    <span class="label">Email</span>
+                    <span class="value" id="currentEmailDisplay">admin123@dental.com</span>
+                </div>
+                <div class="info-row">
+                    <span class="label">Phone</span>
+                    <span class="value">098123456784</span>
+                </div>
+            </div>
+
+            <!-- ─── CHANGE EMAIL CARD ─── -->
+            <div class="settings-card">
+                <h2>Change Email</h2>
+                <p class="card-subtitle">Update your admin email address</p>
+
+                <div class="form-group">
+                    <label for="newEmail">New Email</label>
+                    <input type="email" id="newEmail" placeholder="Enter new email" class="form-input" />
+                    <div class="form-feedback hidden" id="newEmailFeedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="confirmEmail">Confirm New Email</label>
+                    <input type="email" id="confirmEmail" placeholder="Confirm new email" class="form-input" />
+                    <div class="form-feedback hidden" id="confirmEmailFeedback"></div>
+                </div>
+                <div class="form-group">
+                    <label for="emailCurrentPassword">Current Password <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(required)</span></label>
+                    <input type="password" id="emailCurrentPassword" placeholder="Enter current password" class="form-input" />
+                    <div class="form-feedback hidden" id="emailCurrentPwFeedback"></div>
+                </div>
+
+                <button class="btn-update-email" id="updateEmailBtn"><i class="bi bi-envelope"></i> Update Email</button>
+            </div>
+
+            <!-- ─── CHANGE PASSWORD CARD ─── -->
+            <div class="settings-card">
+                <h2>Change Password</h2>
+                <p class="card-subtitle">Update your admin password</p>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Enter current password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" placeholder="Enter new password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+                    </div>
+                    <button type="submit" class="change-pw-btn">Change Password</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ─── DENTIST ACCOUNT MANAGEMENT ─── -->
+        <div style="margin-top: 40px;">
+            <div class="settings-card" style="padding: 28px 32px;">
+                <div class="dentist-section-header">
+                    <h2 style="font-size:1.3rem; font-weight:700; color:var(--text-dark);">Dentist Account Management</h2>
+                    <button class="btn-create-dentist" id="createDentistBtn"><i class="bi bi-person-plus"></i> Create Dentist Account</button>
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 16px;">Manage dentist accounts and system access.</p>
+
+                <div class="dentist-table-wrapper">
+                    <table class="dentist-table" id="dentistTable">
+                        <thead>
+                            <tr>
+                                <th>Dentist Name</th>
+                                <th>Email</th>
+                                <th>Contact Number</th>
+                                <th>Assigned Schedule</th>
+                                <th>Account Status</th>
+                                <th>Last Login</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dentistTableBody">
+                            <tr data-id="1">
+                                <td><span class="dentist-name-link" data-id="1">Dr. Rosa Garcia</span></td>
+                                <td>rosagarcia@gmail.com</td>
+                                <td>0812345698</td>
+                                <td>Mon-Tue, 9:00AM-5:00PM</td>
+                                <td><span class="status-badge">Active</span></td>
+                                <td>2 hours ago</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="action-btn view" data-id="1"><i class="bi bi-eye"></i> View</button>
+                                        <button class="action-btn edit" data-id="1"><i class="bi bi-pencil"></i> Edit</button>
+                                        <button class="action-btn suspend" data-id="1"><i class="bi bi-slash-circle"></i> Suspend</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-id="2">
+                                <td><span class="dentist-name-link" data-id="2">Dr. Jeniffer Gomez</span></td>
+                                <td>jengomez@gmail.com</td>
+                                <td>0986543261</td>
+                                <td>Wed-Thu, 9:00AM-5:00PM</td>
+                                <td><span class="status-badge">Active</span></td>
+                                <td>3 days ago</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="action-btn view" data-id="2"><i class="bi bi-eye"></i> View</button>
+                                        <button class="action-btn edit" data-id="2"><i class="bi bi-pencil"></i> Edit</button>
+                                        <button class="action-btn suspend" data-id="2"><i class="bi bi-slash-circle"></i> Suspend</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-id="3">
+                                <td><span class="dentist-name-link" data-id="3">Dr. Carlos Mendoza</span></td>
+                                <td>cmendiza@gmail.com</td>
+                                <td>0988765435</td>
+                                <td>Fri-Sat, 9:00AM-5:00PM</td>
+                                <td><span class="status-badge">Active</span></td>
+                                <td>5 days ago</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="action-btn view" data-id="3"><i class="bi bi-eye"></i> View</button>
+                                        <button class="action-btn edit" data-id="3"><i class="bi bi-pencil"></i> Edit</button>
+                                        <button class="action-btn suspend" data-id="3"><i class="bi bi-slash-circle"></i> Suspend</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr data-id="4">
+                                <td><span class="dentist-name-link" data-id="4">Dr. Anna Lim</span></td>
+                                <td>annalim@dental.com</td>
+                                <td>0912345678</td>
+                                <td>Mon-Wed, 10:00AM-6:00PM</td>
+                                <td><span class="status-badge inactive">Inactive</span></td>
+                                <td>2 weeks ago</td>
+                                <td>
+                                    <div class="actions-cell">
+                                        <button class="action-btn view" data-id="4"><i class="bi bi-eye"></i> View</button>
+                                        <button class="action-btn edit" data-id="4"><i class="bi bi-pencil"></i> Edit</button>
+                                        <button class="action-btn delete" data-id="4"><i class="bi bi-trash"></i> Delete</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- ─── LOGOUT CONFIRMATION MODAL ─── -->
+    <div class="logout-modal-overlay" id="logoutModal">
+        <div class="logout-modal">
+            <div class="modal-icon">
+                <i class="bi bi-box-arrow-right"></i>
+            </div>
+            <h3>Logout?</h3>
+            <p>Are you sure you want to log out? You will be redirected to the login page.</p>
+            <div class="modal-actions">
+                <button class="btn-stay" id="stayBtn">Stay</button>
+                <button class="btn-logout" id="confirmLogoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── VIEW DENTIST ACCOUNT MODAL ─── -->
+    <div class="view-modal-overlay" id="viewDentistModal">
+        <div class="view-modal">
+            <div class="modal-header">
+                <h2>View Dentist Account</h2>
+                <button class="modal-close" id="viewModalClose"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <div id="viewDentistContent">
+                <!-- Personal Information -->
+                <div class="view-section">
+                    <h3>Personal Information</h3>
+                    <div class="view-row">
+                        <span class="view-label">Dentist Name</span>
+                        <span class="view-value" id="viewName">—</span>
+                    </div>
+                    <div class="view-row">
+                        <span class="view-label">Contact Number</span>
+                        <span class="view-value" id="viewContact">—</span>
+                    </div>
+                </div>
+
+                <!-- Account Credentials -->
+                <div class="view-section">
+                    <h3>Account Credentials</h3>
+                    <div class="view-row">
+                        <span class="view-label">Email</span>
+                        <span class="view-value" id="viewEmail">—</span>
+                    </div>
+                    <div class="view-row">
+                        <span class="view-label">Password</span>
+                        <span class="view-value">••••••</span>
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="view-section">
+                    <h3>Professional Information</h3>
+                    <div class="view-row">
+                        <span class="view-label">Specialization</span>
+                        <span class="view-value" id="viewSpecialization">—</span>
+                    </div>
+                    <div class="view-row">
+                        <span class="view-label">Years of Experience</span>
+                        <span class="view-value" id="viewExperience">—</span>
+                    </div>
+                </div>
+
+                <!-- Duty Schedule Assignment -->
+                <div class="view-section">
+                    <h3>Duty Schedule Assignment</h3>
+                    <div class="view-row">
+                        <span class="view-label">Duty Days</span>
+                        <span class="view-value"><span class="view-days" id="viewDays">—</span></span>
+                    </div>
+                    <div class="view-row">
+                        <span class="view-label">Work Schedule</span>
+                        <span class="view-value" id="viewSchedule">—</span>
+                    </div>
+                </div>
+
+                <!-- Account Status -->
+                <div class="view-section">
+                    <h3>Account Status</h3>
+                    <div class="view-row">
+                        <span class="view-label">Status</span>
+                        <span class="view-value"><span class="view-status" id="viewStatus">—</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-back" id="viewModalBack">Back</button>
+                <button class="btn-edit-account" id="viewModalEdit">Edit Account</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── EDIT DENTIST ACCOUNT MODAL ─── -->
+    <div class="edit-modal-overlay" id="editDentistModal">
+        <div class="edit-modal">
+            <div class="modal-header">
+                <h2>Edit Dentist</h2>
+                <button class="modal-close" id="editModalClose"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <form id="editDentistForm">
+                <!-- Personal Information -->
+                <div class="edit-section">
+                    <h3>Personal Information</h3>
+                    <div class="form-group">
+                        <label for="editName">Dentist Name</label>
+                        <input type="text" id="editName" placeholder="Rosa Garcia" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editContact">Contact Number</label>
+                        <input type="text" id="editContact" placeholder="0912345698" />
+                    </div>
+                </div>
+
+                <!-- Account Credentials -->
+                <div class="edit-section">
+                    <h3>Account Credentials</h3>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail" placeholder="rosagrcla@gmail.com" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">Password</label>
+                        <input type="password" id="editPassword" placeholder="********" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editConfirmPassword">Confirm Password</label>
+                        <input type="password" id="editConfirmPassword" placeholder="********" />
+                    </div>
+                </div>
+
+                <!-- Professional Information -->
+                <div class="edit-section">
+                    <h3>Professional Information</h3>
+                    <div class="form-group">
+                        <label for="editSpecialization">Specialization</label>
+                        <input type="text" id="editSpecialization" placeholder="General Dentistry" />
+                    </div>
+                    <div class="form-group">
+                        <label for="editExperience">Years of Experience</label>
+                        <input type="number" id="editExperience" placeholder="5" min="0" max="50" />
+                    </div>
+                </div>
+
+                <!-- Duty Schedule Assignment -->
+                <div class="edit-section">
+                    <h3>Duty Schedule Assignment</h3>
+                    <div class="form-group">
+                        <label>Select Duty Days</label>
+                        <div class="days-grid" id="editDaysGrid">
+                            <label><input type="checkbox" value="Monday" /> Monday</label>
+                            <label><input type="checkbox" value="Tuesday" /> Tuesday</label>
+                            <label><input type="checkbox" value="Wednesday" /> Wednesday</label>
+                            <label><input type="checkbox" value="Thursday" /> Thursday</label>
+                            <label><input type="checkbox" value="Friday" /> Friday</label>
+                            <label><input type="checkbox" value="Saturday" /> Saturday</label>
+                            <label><input type="checkbox" value="Sunday" /> Sunday</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="editStartTime">Start Time</label>
+                            <input type="time" id="editStartTime" value="09:00" />
+                        </div>
+                        <div class="form-group">
+                            <label for="editEndTime">End Time</label>
+                            <input type="time" id="editEndTime" value="17:00" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Account Status -->
+                <div class="edit-section">
+                    <h3>Account Status</h3>
+                    <div class="status-radio-group">
+                        <label><input type="radio" name="editStatus" value="Active" checked /> Active</label>
+                        <label><input type="radio" name="editStatus" value="Inactive" /> Inactive</label>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="editModalCancel">Cancel</button>
+                    <button type="submit" class="btn-save">Save Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-js/admin-settings.js"></script>
+</body>
+</html>
