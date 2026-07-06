@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | Pablo-De Jesus Dental Center</title>
+    <link rel="stylesheet" href="dash-css/profile.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- ─── SIDEBAR TOGGLE (mobile) ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+    <!-- ─── SIDEBAR OVERLAY ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>Pablo-De Jesus<br /><span>Dental Center</span></h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dashboard.html"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="appointment.html"><i class="bi bi-person-vcard"></i> My Appointment</a>
+            <a href="book-appointment.html"><i class="bi bi-calendar2-plus"></i> Book Appointment</a>
+            <a href="records.html"><i class="bi bi-file-earmark-text"></i> My Records</a>
+            <a href="billing.html"><i class="bi bi-receipt"></i> Billing</a>
+            <a href="chatbox.html"><i class="bi bi-chat-dots"></i> Chatbox</a>
+            <a href="feedback.html"><i class="bi bi-star-fill"></i> Feedback</a>
+            <a href="#" class="active"><i class="bi bi-person-circle"></i> Profile</a>
+            <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="greeting">
+                <h1>Profile Settings</h1>
+                <p>Manage your account and preferences</p>
+            </div>
+            <div class="user-actions" onclick="window.location.href='profile.html'">
+                <span class="user-name">Womark David Salita</span>
+                <i class="bi bi-person-circle user-avatar"></i>
+            </div>
+        </div>
+
+        <!-- ─── PROFILE SECTIONS ─── -->
+
+        <!-- 1. Personal Information -->
+        <section class="profile-section">
+            <div class="section-header">
+                <h2>Personal Information</h2>
+                <button class="edit-btn" data-section="personal"><i class="bi bi-pencil"></i> Edit</button>
+            </div>
+            <div class="profile-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Full Name</span>
+                        <span class="value">Womark David Salita</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Occupation</span>
+                        <span class="value">Manager at Krusty Crab</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Date of Birth</span>
+                        <span class="value">3/15/2000</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Dental Insurance</span>
+                        <span class="value">None</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Address</span>
+                        <span class="value">152 Bolivar Boulevard</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Email</span>
+                        <span class="value email-value" id="personalEmailDisplay">nslade@email.com</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Age</span>
+                        <span class="value">26</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Contact Number</span>
+                        <span class="value">0813456783234</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Gender</span>
+                        <span class="value">Male</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Effective Date</span>
+                        <span class="value">None</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. Dental History -->
+        <section class="profile-section">
+            <div class="section-header">
+                <h2>Dental History</h2>
+                <button class="edit-btn" data-section="dental"><i class="bi bi-pencil"></i> Edit</button>
+            </div>
+            <div class="profile-card">
+                <div class="info-grid two-col">
+                    <div class="info-item">
+                        <span class="label">Previous Dentist</span>
+                        <span class="value">Dr. Mario Roque</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Last Dentist Visit</span>
+                        <span class="value">March 22, 2025</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Medical History -->
+        <section class="profile-section">
+            <div class="section-header">
+                <h2>Medical History</h2>
+                <button class="edit-btn" data-section="medical"><i class="bi bi-pencil"></i> Edit Medical Information</button>
+            </div>
+            <div class="profile-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <span class="label">Physician Name</span>
+                        <span class="value">Dr. Maria Roque</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Physician Specialty</span>
+                        <span class="value">N/A</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Current Medical Treatment</span>
+                        <span class="value">No</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Current Medications</span>
+                        <span class="value">Name</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Clinic Address</span>
+                        <span class="value">Tangos @aliqua, @alcoan</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Good Health Status</span>
+                        <span class="value">Yes</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Serious Illness or Surgical History</span>
+                        <span class="value">N/A</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Tobacco Use</span>
+                        <span class="value">No</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Office Number</span>
+                        <span class="value">011456703234</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Hospitalization History</span>
+                        <span class="value">Name</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Alcohol or Drug Use</span>
+                        <span class="value">No</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 4. EMAIL SETTINGS (separate) ─── -->
+        <section class="profile-section">
+            <div class="section-header">
+                <h2>Email Settings</h2>
+            </div>
+            <div class="profile-card">
+                <div class="info-grid two-col">
+                    <!-- Current Email -->
+                    <div class="info-item" style="grid-column: 1 / -1;">
+                        <span class="label">Current Email</span>
+                        <span class="email-display" id="currentEmailDisplay">nslade@email.com</span>
+                    </div>
+
+                    <!-- New Email -->
+                    <div class="info-item">
+                        <span class="label">New Email <span class="required" style="color:#e74c3c;">*</span></span>
+                        <input type="email" class="form-input" id="newEmailInput" placeholder="Enter new email" />
+                        <div class="form-feedback hidden" id="newEmailFeedback"></div>
+                    </div>
+
+                    <!-- Confirm New Email -->
+                    <div class="info-item">
+                        <span class="label">Confirm New Email <span class="required" style="color:#e74c3c;">*</span></span>
+                        <input type="email" class="form-input" id="confirmEmailInput" placeholder="Confirm new email" />
+                        <div class="form-feedback hidden" id="confirmEmailFeedback"></div>
+                    </div>
+
+                    <!-- Current Password (for verification) -->
+                    <div class="info-item" style="grid-column: 1 / -1; max-width: 50%;">
+                        <span class="label">Current Password <span style="font-weight:400;text-transform:none;color:var(--text-muted);">(required to update email)</span></span>
+                        <input type="password" class="form-input" id="emailCurrentPassword" placeholder="Enter current password" />
+                        <div class="form-feedback hidden" id="emailCurrentPwFeedback"></div>
+                    </div>
+                </div>
+
+                <div class="section-actions">
+                    <button class="btn-update-email" id="updateEmailBtn"><i class="bi bi-envelope"></i> Update Email</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ─── 5. PASSWORD SETTINGS (separate) ─── -->
+        <section class="profile-section">
+            <div class="section-header">
+                <h2>Password Settings</h2>
+            </div>
+            <div class="profile-card">
+                <div class="info-grid two-col">
+                    <!-- Current Password -->
+                    <div class="info-item">
+                        <span class="label">Current Password <span class="required" style="color:#e74c3c;">*</span></span>
+                        <input type="password" class="form-input" id="pwCurrentPassword" placeholder="Enter current password" />
+                        <div class="form-feedback hidden" id="pwCurrentPwFeedback"></div>
+                    </div>
+
+                    <!-- New Password -->
+                    <div class="info-item">
+                        <span class="label">New Password <span class="required" style="color:#e74c3c;">*</span></span>
+                        <input type="password" class="form-input" id="newPassword" placeholder="Enter new password" />
+                        <div class="form-feedback hidden" id="newPwFeedback"></div>
+                    </div>
+
+                    <!-- Confirm New Password -->
+                    <div class="info-item" style="grid-column: 1 / -1; max-width: 50%;">
+                        <span class="label">Confirm New Password <span class="required" style="color:#e74c3c;">*</span></span>
+                        <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm new password" />
+                        <div class="form-feedback hidden" id="confirmPwFeedback"></div>
+                    </div>
+                </div>
+
+                <div class="section-actions">
+                    <button class="btn-change-pw" id="changePwBtn"><i class="bi bi-key"></i> Change Password</button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+<script src="dash-js/profile.js"></script>
+</body>
+</html>
