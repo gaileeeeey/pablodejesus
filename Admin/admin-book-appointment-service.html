@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Book Appointment | Pablo-De Jesus Dental Center</title>
+    <link rel="stylesheet" href="admin-css/admin-book-appointment.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+        /* ─── STEP PROGRESS ─── */
+        .step-progress {
+            display: flex;
+            align-items: center;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 16px 24px;
+            margin-bottom: 28px;
+            box-shadow: 0 2px 12px rgba(27, 73, 101, 0.05);
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .step-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid #cbd5e1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            flex-shrink: 0;
+            transition: 0.2s;
+        }
+
+        .step.active .step-circle {
+            background: var(--teal);
+            border-color: var(--teal);
+            color: #ffffff;
+        }
+        .step.completed .step-circle {
+            background: var(--green);
+            border-color: var(--green);
+            color: #ffffff;
+        }
+
+        .step-text {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+
+        .step-num {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-faint);
+        }
+        .step.active .step-num {
+            color: var(--teal);
+        }
+        .step.completed .step-num {
+            color: var(--green);
+        }
+
+        .step-label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text-faint);
+            white-space: nowrap;
+        }
+        .step.active .step-label {
+            color: var(--teal);
+        }
+        .step.completed .step-label {
+            color: var(--green);
+        }
+
+        .step-line {
+            flex: 1;
+            height: 2px;
+            background: #E8EEF5;
+            margin: 0 10px;
+            min-width: 20px;
+        }
+        .step-line.completed {
+            background: var(--green);
+        }
+
+        /* ─── STEP PANELS ─── */
+        .step-panel {
+            display: none;
+            animation: fadeUp 0.3s ease;
+        }
+        .step-panel.active {
+            display: block;
+        }
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 28px;
+            padding-top: 20px;
+            border-top: 1.5px solid #E8EEF5;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .step-nav .btn-prev,
+        .step-nav .btn-next {
+            padding: 10px 28px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .step-nav .btn-prev {
+            background: #f3f4f6;
+            color: var(--text-dark);
+        }
+        .step-nav .btn-prev:hover {
+            background: #e5e7eb;
+        }
+        .step-nav .btn-next {
+            background: var(--navy);
+            color: #fff;
+        }
+        .step-nav .btn-next:hover {
+            background: var(--teal-dark);
+        }
+        .step-nav .btn-prev:active,
+        .step-nav .btn-next:active {
+            transform: scale(0.96);
+        }
+        .step-nav .btn-prev:disabled,
+        .step-nav .btn-next:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .step-nav .spacer {
+            flex: 1;
+        }
+
+        /* ─── STEP 2: TIME GRID ─── */
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 8px;
+        }
+        .time-slot {
+            padding: 10px 8px;
+            border: 2px solid #E8EEF5;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            background: #fafbfc;
+        }
+        .time-slot:hover {
+            background: #f0f5ff;
+        }
+        .time-slot.selected {
+            border-color: var(--navy);
+            background: #f0f5ff;
+        }
+        .time-slot input[type="radio"] {
+            display: none;
+        }
+
+        /* ─── STEP 3: FORM ─── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px 24px;
+            margin-top: 8px;
+        }
+        .form-grid .full-width {
+            grid-column: 1 / -1;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .form-group label .required {
+            color: #e74c3c;
+            margin-left: 2px;
+        }
+        .form-group input,
+        .form-group select {
+            padding: 10px 14px;
+            border: 1.5px solid #dce4ec;
+            border-radius: 12px;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 1rem;
+            background: #f8fafc;
+            transition: border-color 0.25s, box-shadow 0.25s;
+            outline: none;
+            color: var(--text-dark);
+            width: 100%;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--navy);
+            box-shadow: 0 0 0 4px rgba(27, 73, 101, 0.08);
+            background: #fff;
+        }
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%231B4965' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+        }
+        .form-group input[type="date"] {
+            min-height: 48px;
+        }
+        .form-input.error {
+            border-color: #e74c3c !important;
+            background: #fdf0ef !important;
+        }
+        .form-input.success {
+            border-color: var(--green) !important;
+            background: #f0faf5 !important;
+        }
+        .form-feedback {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 4px;
+            min-height: 1.2rem;
+        }
+        .form-feedback.success {
+            color: var(--green);
+        }
+        .form-feedback.error {
+            color: #e74c3c;
+        }
+        .form-feedback.hidden {
+            visibility: hidden;
+        }
+
+        /* ─── MEDICAL HISTORY SECTIONS ─── */
+        .med-section-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin: 18px 0 10px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid #E8EEF5;
+        }
+        .med-section-title:first-of-type {
+            margin-top: 4px;
+        }
+
+        /* ─── STEP 4: REVIEW ─── */
+        .review-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 20px 24px;
+            margin: 8px 0 16px;
+        }
+        .review-section .review-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e8ecf1;
+        }
+        .review-section .review-row:last-child {
+            border-bottom: none;
+        }
+        .review-section .review-label {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .review-section .review-value {
+            font-weight: 700;
+            color: var(--text-dark);
+            text-align: right;
+        }
+        .review-section .review-value .highlight {
+            color: var(--navy);
+        }
+        .review-section .review-services span {
+            display: inline-block;
+            background: #e8ecf1;
+            padding: 2px 14px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            margin: 2px 0 2px 6px;
+        }
+        .review-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .review-actions .btn-confirm {
+            background: var(--green);
+            color: #fff;
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            flex: 1;
+            min-width: 160px;
+        }
+        .review-actions .btn-confirm:hover {
+            background: #0d6b2f;
+        }
+        .review-actions .btn-confirm:active {
+            transform: scale(0.96);
+        }
+        .review-actions .btn-edit {
+            background: #f3f4f6;
+            color: var(--text-dark);
+            padding: 14px 32px;
+            border-radius: 30px;
+            font-family: 'Baloo 2', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .review-actions .btn-edit:hover {
+            background: #e5e7eb;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            .step-progress {
+                padding: 14px 16px;
+                overflow-x: auto;
+            }
+            .step-label {
+                display: none;
+            }
+            .step-text .step-num {
+                font-size: 0.7rem;
+            }
+            .step-line {
+                min-width: 12px;
+                margin: 0 6px;
+            }
+            .time-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .step-nav {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .step-nav .spacer {
+                display: none;
+            }
+            .step-nav .btn-prev,
+            .step-nav .btn-next {
+                justify-content: center;
+            }
+            .review-actions {
+                flex-direction: column;
+            }
+            .review-actions .btn-confirm,
+            .review-actions .btn-edit {
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            .time-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .step-circle {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            .step-line {
+                min-width: 8px;
+                margin: 0 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ─── SIDEBAR TOGGLE (mobile) ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- ─── SIDEBAR OVERLAY ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>Pablo-De Jesus<br /><span>Dental Center</span></h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dash.html"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="admin-appointment.html"><i class="bi bi-person-vcard"></i> Appointments</a>
+            <a href="#" class="active"><i class="bi bi-calendar2-plus"></i> Book Appointment</a>
+            <a href="admin-services.html"><i class="fa-solid fa-tooth"></i> Services</a>
+            <a href="admin-patients.html"><i class="bi bi-people"></i> Patients</a>
+            <a href="admin-billing.html"><i class="bi bi-receipt"></i> Billing</a>
+            <a href="admin-inventory.html"><i class="bi bi-box-seam"></i> Inventory</a>
+            <a href="admin-chatbox.html"><i class="bi bi-chat-dots"></i> Chatbox</a>
+            <a href="admin-feedback.html"><i class="bi bi-star-fill"></i> Feedback</a>
+            <a href="admin-settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="greeting">
+                <h1 id="pageTitle">Select Your Services</h1>
+                <p id="pageSub">Choose one or more services to add to your treatment plan</p>
+            </div>
+            <div class="user-actions" onclick="window.location.href='admin-settings.html'">
+                <span class="user-name">Admin Womark</span>
+                <i class="bi bi-person-circle user-avatar"></i>
+            </div>
+        </div>
+
+        <!-- ─── STEP PROGRESS ─── -->
+        <div class="step-progress" id="stepProgress">
+            <div class="step active" data-step="1">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Choose Service</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Schedule Date & Time</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Fill Up Details</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="4">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Review & Confirm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── BOOKING GRID ─── -->
+        <div class="booking-grid">
+
+            <!-- LEFT: Step panels -->
+            <section class="services-section">
+                <div class="services-card" style="padding-bottom: 20px;">
+
+                    <!-- STEP 1: Choose Services -->
+                    <div class="step-panel active" id="step1">
+                        <h2>Choose Services</h2>
+                        <p class="sub-text">Select one or more services. You can add multiple services in a single appointment.</p>
+                        <div class="services-list" id="servicesList">
+                            <!-- Dental Consultation -->
+                            <label class="service-item" data-name="Dental Consultation" data-price="800" data-duration="20">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">Dental Consultation</span>
+                                    <span class="service-desc">A oral examination where the dentist evaluates your teeth, gums, and overall oral health.</span>
+                                    <span class="service-meta"><span class="price">₱800</span> · <span class="duration">20 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- Oral Examination -->
+                            <label class="service-item" data-name="Oral Examination" data-price="300" data-duration="20">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">Oral Examination</span>
+                                    <span class="service-desc">Assessment of teeth, gums, and oral health.</span>
+                                    <span class="service-meta"><span class="price">₱300</span> · <span class="duration">20 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- TMJ Consultation -->
+                            <label class="service-item" data-name="TMJ Consultation" data-price="800" data-duration="30">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">TMJ Consultation</span>
+                                    <span class="service-desc">Evaluation of jaw pain and temporomandibular joint issues.</span>
+                                    <span class="service-meta"><span class="price">₱800</span> · <span class="duration">30 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- Oral Prophylaxis with dropdown -->
+                            <div class="service-item service-with-dropdown" data-name="Oral Prophylaxis">
+                                <div class="service-content" style="width:100%;">
+                                    <div class="service-header" style="display:flex; align-items:center; gap:12px; width:100%; flex-wrap:wrap;">
+                                        <span class="service-title">Oral Prophylaxis</span>
+                                        <span class="service-meta" style="margin-left:auto;"><span class="price">₱800–1,900</span></span>
+                                        <button class="dropdown-toggle" type="button">More Info</button>
+                                    </div>
+                                    <span class="service-desc">A professional oral cleaning procedure.</span>
+                                    <div class="dropdown-content">
+                                        <label class="sub-service-item" data-name="Basic Cleaning" data-price="800" data-duration="30">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Basic Cleaning</span>
+                                                <span class="sub-desc">A routine cleaning that removes minor plaque.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱800</span> · 30 mins</span>
+                                            </div>
+                                        </label>
+                                        <label class="sub-service-item" data-name="Standard Cleaning" data-price="1200" data-duration="45">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Standard Cleaning</span>
+                                                <span class="sub-desc">Comprehensive cleaning, polishing, and root scaling.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱1,200</span> · 45 mins</span>
+                                            </div>
+                                        </label>
+                                        <label class="sub-service-item" data-name="Deep Cleaning" data-price="1900" data-duration="60">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Deep Cleaning</span>
+                                                <span class="sub-desc">Advanced cleaning procedure to help treat gum disease.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱1,900</span> · 60 mins</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-nav">
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step1Next">Next Step <i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Schedule Date & Time -->
+                    <div class="step-panel" id="step2">
+                        <h2>Schedule Your Appointment</h2>
+                        <p class="sub-text">Set your preferred appointment date and time.</p>
+                        <div style="margin: 16px 0 12px;">
+                            <div class="form-group" style="max-width: 300px;">
+                                <label for="apptDate">Select Date <span class="required">*</span></label>
+                                <input type="date" id="apptDate" min="">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-weight:600; font-size:0.95rem; color:var(--text-dark);">Select Time <span class="required">*</span></label>
+                            <div class="time-grid" id="timeGrid">
+                                <!-- times will be generated by JS -->
+                            </div>
+                        </div>
+                        <div class="step-nav">
+                            <button class="btn-prev" id="step2Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step2Next">Next Step <i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Fill Up Details -->
+                    <div class="step-panel" id="step3">
+                        <h2>Patient Information</h2>
+                        <p class="sub-text">Provide the patient's personal and medical information.</p>
+                        <div style="margin: 12px 0 8px;">
+                            <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-dark); margin-bottom:8px;">Patient Details</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name <span class="required">*</span></label>
+                                    <input type="text" id="fullName" placeholder="Full Name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth <span class="required">*</span></label>
+                                    <input type="date" id="dob" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email <span class="required">*</span></label>
+                                    <input type="email" id="email" placeholder="Email" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="occupation">Occupation <span class="required">*</span></label>
+                                    <input type="text" id="occupation" placeholder="Occupation" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address <span class="required">*</span></label>
+                                    <input type="text" id="address" placeholder="Address" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender <span class="required">*</span></label>
+                                    <select id="gender" class="form-input" required>
+                                        <option value="">Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact">Contact Number <span class="required">*</span></label>
+                                    <input type="tel" id="contact" placeholder="Contact number" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dentalInsurance">Dental Insurance</label>
+                                    <input type="text" id="dentalInsurance" placeholder="Dental Insurance (optional)" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="effectiveDate">Effective Date</label>
+                                    <input type="date" id="effectiveDate" class="form-input">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ─── MEDICAL HISTORY ─── -->
+                        <div style="margin-top: 16px;">
+                            <div class="med-section-title">Dental History</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="previousDentist">Previous Dentist</label>
+                                    <input type="text" id="previousDentist" placeholder="Previous Dentist" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastDentistVisit">Last Dentist Visit</label>
+                                    <input type="date" id="lastDentistVisit" class="form-input">
+                                </div>
+                            </div>
+
+                            <div class="med-section-title">Medical History</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="physicianName">Name of Physician <span class="required">*</span></label>
+                                    <input type="text" id="physicianName" placeholder="Name" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clinicAddress">Clinic Address <span class="required">*</span></label>
+                                    <input type="text" id="clinicAddress" placeholder="244 Baliuag, Bulacan" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="officeNumber">Office Number <span class="required">*</span></label>
+                                    <input type="text" id="officeNumber" placeholder="0987-345-6578" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="goodHealth">Are you in good health? <span class="required">*</span></label>
+                                    <select id="goodHealth" class="form-input" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="seriousIllness">Ever had serious illness / surgery? <span class="required">*</span></label>
+                                    <select id="seriousIllness" class="form-input" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="physicianSpecialty">Specialty, if applicable</label>
+                                    <input type="text" id="physicianSpecialty" placeholder="N/A" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label for="medicalTreatment">Under medical treatment now? <span class="required">*</span></label>
+                                    <select id="medicalTreatment" class="form-input" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospitalized">Ever been hospitalized? <span class="required">*</span></label>
+                                    <select id="hospitalized" class="form-input" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-nav">
+                            <button class="btn-prev" id="step3Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step3Next">Next Step <i class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Review & Confirm -->
+                    <div class="step-panel" id="step4">
+                        <h2>Review &amp; Confirm</h2>
+                        <p class="sub-text">Please review all the information below before confirming this appointment.</p>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Appointment Details</h3>
+                            <div class="review-section" id="reviewAppointment">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Patient Information</h3>
+                            <div class="review-section" id="reviewPatient">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Medical History</h3>
+                            <div class="review-section" id="reviewMedical">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div class="review-actions">
+                            <button class="btn-edit" id="reviewEdit">← Edit Details</button>
+                            <button class="btn-confirm" id="reviewConfirm"><i class="bi bi-check-circle"></i> Confirm Appointment</button>
+                        </div>
+
+                        <div class="step-nav" style="border-top:none; padding-top:8px; margin-top:4px;">
+                            <button class="btn-prev" id="step4Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- RIGHT: Selected Services & Summary (visible across all steps) -->
+            <section class="summary-section">
+                <div class="summary-card">
+                    <h2>Your Selected Services</h2>
+                    <div id="selectedServicesContainer">
+                        <div class="selected-placeholder">No services selected yet.</div>
+                    </div>
+
+                    <div class="summary-totals">
+                        <div class="total-row">
+                            <span class="total-label">Total Services:</span>
+                            <span class="total-value" id="totalCount">0</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Est. Duration:</span>
+                            <span class="total-value" id="totalDuration">0 min</span>
+                        </div>
+                        <div class="total-row highlight">
+                            <span class="total-label">Total Cost:</span>
+                            <span class="total-value" id="totalCost">₱0</span>
+                        </div>
+                    </div>
+                    <p class="disclaimer">The estimated time is the total duration of all selected services. The actual time may vary depending on the doctor.</p>
+                    <div class="summary-actions">
+                        <button class="btn-proceed" id="proceedBtn">Proceed to Schedule</button>
+                        <button class="btn-clear" id="clearBtn">Clear All Selections</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="admin-js/admin-book-appointment.js"></script>
+    <script>
+        // ─── Inline JS to handle the full wizard ───
+        (function() {
+            'use strict';
+
+            // ─── Sidebar logic ───
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            function openSidebar() {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+                toggleBtn.innerHTML = '<i class="bi bi-x-lg"></i>';
+            }
+
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                toggleBtn.innerHTML = '<i class="bi bi-list"></i>';
+            }
+
+            toggleBtn.addEventListener('click', function() {
+                if (sidebar.classList.contains('open')) {
+                    closeSidebar();
+                } else {
+                    openSidebar();
+                }
+            });
+
+            overlay.addEventListener('click', closeSidebar);
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 900) {
+                    closeSidebar();
+                }
+            });
+
+            sidebar.querySelectorAll('.sidebar-nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (window.innerWidth <= 900) {
+                        if (!this.classList.contains('logout')) {
+                            closeSidebar();
+                        }
+                    }
+                });
+            });
+
+            // ─── Dropdown toggle for Oral Prophylaxis ───
+            const dropdownToggle = document.querySelector('.dropdown-toggle');
+            const dropdownContent = document.querySelector('.dropdown-content');
+            if (dropdownToggle && dropdownContent) {
+                dropdownToggle.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownContent.classList.toggle('open');
+                    this.textContent = dropdownContent.classList.contains('open') ? 'Less Info' : 'More Info';
+                });
+            }
+
+            // ─── Service Selection ───
+            const mainCheckboxes = document.querySelectorAll('.service-checkbox');
+            const subCheckboxes = document.querySelectorAll('.sub-service-checkbox');
+            const selectedContainer = document.getElementById('selectedServicesContainer');
+            const totalCount = document.getElementById('totalCount');
+            const totalDuration = document.getElementById('totalDuration');
+            const totalCost = document.getElementById('totalCost');
+            const clearBtn = document.getElementById('clearBtn');
+            const proceedBtn = document.getElementById('proceedBtn');
+
+            function formatCurrency(amount) {
+                return '₱' + amount.toLocaleString();
+            }
+
+            function getSelectedServices() {
+                const selected = [];
+                mainCheckboxes.forEach(cb => {
+                    if (cb.checked) {
+                        const item = cb.closest('.service-item');
+                        const name = item.dataset.name;
+                        const price = parseInt(item.dataset.price);
+                        const duration = parseInt(item.dataset.duration);
+                        selected.push({ name, price, duration });
+                    }
+                });
+                subCheckboxes.forEach(cb => {
+                    if (cb.checked) {
+                        const subItem = cb.closest('.sub-service-item');
+                        const name = subItem.dataset.name;
+                        const price = parseInt(subItem.dataset.price);
+                        const duration = parseInt(subItem.dataset.duration);
+                        selected.push({ name, price, duration });
+                    }
+                });
+                return selected;
+            }
+
+            function updateSummary() {
+                const selected = getSelectedServices();
+                let count = selected.length;
+                let duration = 0;
+                let cost = 0;
+                selected.forEach(s => { duration += s.duration;
+                    cost += s.price; });
+
+                if (selected.length === 0) {
+                    selectedContainer.innerHTML =
+                        '<div class="selected-placeholder">No services selected yet.</div>';
+                } else {
+                    let html = '';
+                    selected.forEach(s => {
+                        html += `
+                            <div class="selected-service-item">
+                                <span class="sel-name">${s.name}</span>
+                                <span class="sel-meta"><span class="sel-price">${formatCurrency(s.price)}</span> · ${s.duration} mins</span>
+                            </div>
+                        `;
+                    });
+                    selectedContainer.innerHTML = html;
+                }
+
+                totalCount.textContent = count;
+                totalDuration.textContent = duration + ' min';
+                totalCost.textContent = formatCurrency(cost);
+
+                mainCheckboxes.forEach(cb => {
+                    const item = cb.closest('.service-item');
+                    if (cb.checked) item.classList.add('checked');
+                    else item.classList.remove('checked');
+                });
+                subCheckboxes.forEach(cb => {
+                    const subItem = cb.closest('.sub-service-item');
+                    if (cb.checked) subItem.classList.add('checked');
+                    else subItem.classList.remove('checked');
+                });
+            }
+
+            mainCheckboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+            subCheckboxes.forEach(cb => cb.addEventListener('change', updateSummary));
+
+            clearBtn.addEventListener('click', function() {
+                mainCheckboxes.forEach(cb => { cb.checked = false; });
+                subCheckboxes.forEach(cb => { cb.checked = false; });
+                updateSummary();
+                if (currentStep > 1) goToStep(1);
+            });
+
+            // ─── Step Management ───
+            const stepPanels = {
+                1: document.getElementById('step1'),
+                2: document.getElementById('step2'),
+                3: document.getElementById('step3'),
+                4: document.getElementById('step4')
+            };
+            const stepItems = document.querySelectorAll('.step-progress .step');
+            const stepLines = document.querySelectorAll('.step-progress .step-line');
+            let currentStep = 1;
+
+            let selectedDate = '';
+            let selectedTime = '';
+
+            // Time slots
+            const timeSlots = [
+                '09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM',
+                '11:00 AM', '11:30 AM', '01:00 PM', '01:30 PM',
+                '02:00 PM', '02:30 PM', '03:00 PM', '03:30 PM',
+                '04:00 PM', '04:30 PM', '05:00 PM'
+            ];
+
+            function renderTimeSlots() {
+                const grid = document.getElementById('timeGrid');
+                grid.innerHTML = '';
+                timeSlots.forEach(time => {
+                    const label = document.createElement('label');
+                    label.className = 'time-slot';
+                    const radio = document.createElement('input');
+                    radio.type = 'radio';
+                    radio.name = 'apptTime';
+                    radio.value = time;
+                    radio.addEventListener('change', function() {
+                        document.querySelectorAll('.time-slot').forEach(el => el.classList.remove(
+                        'selected'));
+                        this.closest('.time-slot').classList.add('selected');
+                        selectedTime = this.value;
+                    });
+                    label.appendChild(radio);
+                    label.appendChild(document.createTextNode(time));
+                    grid.appendChild(label);
+                });
+            }
+            renderTimeSlots();
+
+            // Set min date
+            const dateInput = document.getElementById('apptDate');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+            dateInput.addEventListener('change', function() {
+                selectedDate = this.value;
+            });
+
+            function goToStep(step) {
+                // Validation
+                if (step === 2 && getSelectedServices().length === 0) {
+                    alert('Please select at least one service before proceeding.');
+                    return;
+                }
+                if (step === 3) {
+                    if (!selectedDate || !selectedTime) {
+                        alert('Please select both a date and time.');
+                        return;
+                    }
+                }
+                if (step === 4) {
+                    const requiredFields = [
+                        'fullName', 'dob', 'email', 'occupation', 'address', 'gender', 'contact',
+                        'physicianName', 'clinicAddress', 'officeNumber',
+                        'goodHealth', 'medicalTreatment', 'seriousIllness', 'hospitalized'
+                    ];
+                    let valid = true;
+                    requiredFields.forEach(id => {
+                        const el = document.getElementById(id);
+                        if (el && !el.value.trim()) {
+                            valid = false;
+                            el.classList.add('error');
+                        } else if (el) {
+                            el.classList.remove('error');
+                            el.classList.add('success');
+                        }
+                    });
+                    if (!valid) {
+                        alert('Please fill in all required fields (marked with *).');
+                        return;
+                    }
+                    if (!selectedDate || !selectedTime) {
+                        alert('Please select a date and time.');
+                        return;
+                    }
+                    populateReview();
+                }
+
+                // Hide all panels
+                Object.values(stepPanels).forEach(p => p.classList.remove('active'));
+                stepPanels[step].classList.add('active');
+
+                // Update progress steps
+                stepItems.forEach((item, idx) => {
+                    const num = idx + 1;
+                    item.classList.remove('active', 'completed');
+                    if (num === step) item.classList.add('active');
+                    else if (num < step) item.classList.add('completed');
+                });
+                stepLines.forEach((line, idx) => {
+                    const num = idx + 1;
+                    line.classList.toggle('completed', num < step);
+                });
+
+                currentStep = step;
+                // Update page title/subtitle
+                const titles = {
+                    1: { title: 'Select Your Services', sub: 'Choose one or more services to add to your treatment plan' },
+                    2: { title: 'Schedule Your Appointment', sub: 'Set your preferred appointment date and time.' },
+                    3: { title: 'Patient Information', sub: 'Provide the patient\'s personal and medical information.' },
+                    4: { title: 'Review & Confirm', sub: 'Please review all the information below before confirming.' }
+                };
+                document.getElementById('pageTitle').textContent = titles[step].title;
+                document.getElementById('pageSub').textContent = titles[step].sub;
+
+                const card = document.querySelector('.services-card');
+                if (card && window.innerWidth <= 768) {
+                    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
+            // ─── Navigation ───
+            document.getElementById('step1Next').addEventListener('click', () => goToStep(2));
+            document.getElementById('step2Prev').addEventListener('click', () => goToStep(1));
+            document.getElementById('step2Next').addEventListener('click', () => goToStep(3));
+            document.getElementById('step3Prev').addEventListener('click', () => goToStep(2));
+            document.getElementById('step3Next').addEventListener('click', () => goToStep(4));
+            document.getElementById('step4Prev').addEventListener('click', () => goToStep(3));
+
+            proceedBtn.addEventListener('click', function() {
+                if (getSelectedServices().length === 0) {
+                    alert('Please select at least one service.');
+                    return;
+                }
+                goToStep(2);
+            });
+
+            // ─── Review Populate ───
+            function populateReview() {
+                const services = getSelectedServices();
+                let servicesHtml = services.map(s => `<span>${s.name}</span>`).join(' ') || '—';
+                let totalDur = services.reduce((sum, s) => sum + s.duration, 0);
+                let totalCostVal = services.reduce((sum, s) => sum + s.price, 0);
+                const dateObj = selectedDate ? new Date(selectedDate + 'T00:00:00') : null;
+                const dateStr = dateObj ? dateObj.toLocaleDateString('en-US', { weekday: 'short', year: 'numeric',
+                    month: 'short', day: 'numeric' }) : '—';
+
+                document.getElementById('reviewAppointment').innerHTML = `
+                    <div class="review-row"><span class="review-label">Services</span><span class="review-value review-services">${servicesHtml}</span></div>
+                    <div class="review-row"><span class="review-label">Total Cost</span><span class="review-value highlight">${formatCurrency(totalCostVal)}</span></div>
+                    <div class="review-row"><span class="review-label">Est. Duration</span><span class="review-value">${totalDur} min</span></div>
+                    <div class="review-row"><span class="review-label">Date</span><span class="review-value">${dateStr}</span></div>
+                    <div class="review-row"><span class="review-label">Time</span><span class="review-value">${selectedTime || '—'}</span></div>
+                `;
+
+                // Patient info
+                document.getElementById('reviewPatient').innerHTML = `
+                    <div class="review-row"><span class="review-label">Full Name</span><span class="review-value">${document.getElementById('fullName').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Date of Birth</span><span class="review-value">${document.getElementById('dob').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Email</span><span class="review-value">${document.getElementById('email').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Occupation</span><span class="review-value">${document.getElementById('occupation').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Address</span><span class="review-value">${document.getElementById('address').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Gender</span><span class="review-value">${document.getElementById('gender').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Contact Number</span><span class="review-value">${document.getElementById('contact').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Dental Insurance</span><span class="review-value">${document.getElementById('dentalInsurance').value || 'None'}</span></div>
+                    <div class="review-row"><span class="review-label">Effective Date</span><span class="review-value">${document.getElementById('effectiveDate').value || 'None'}</span></div>
+                `;
+
+                // Medical history
+                document.getElementById('reviewMedical').innerHTML = `
+                    <div class="review-row"><span class="review-label">Previous Dentist</span><span class="review-value">${document.getElementById('previousDentist').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Last Dentist Visit</span><span class="review-value">${document.getElementById('lastDentistVisit').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Physician Name</span><span class="review-value">${document.getElementById('physicianName').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Clinic Address</span><span class="review-value">${document.getElementById('clinicAddress').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Office Number</span><span class="review-value">${document.getElementById('officeNumber').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Good Health</span><span class="review-value">${document.getElementById('goodHealth').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Serious Illness / Surgery</span><span class="review-value">${document.getElementById('seriousIllness').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Specialty</span><span class="review-value">${document.getElementById('physicianSpecialty').value || 'N/A'}</span></div>
+                    <div class="review-row"><span class="review-label">Medical Treatment</span><span class="review-value">${document.getElementById('medicalTreatment').value || '—'}</span></div>
+                    <div class="review-row"><span class="review-label">Hospitalized</span><span class="review-value">${document.getElementById('hospitalized').value || '—'}</span></div>
+                `;
+            }
+
+            document.getElementById('reviewEdit').addEventListener('click', function() {
+                goToStep(1);
+            });
+
+            document.getElementById('reviewConfirm').addEventListener('click', function() {
+                const services = getSelectedServices();
+                const bookingData = {
+                    services: services,
+                    date: selectedDate,
+                    time: selectedTime,
+                    patient: {
+                        fullName: document.getElementById('fullName').value,
+                        dob: document.getElementById('dob').value,
+                        email: document.getElementById('email').value,
+                        occupation: document.getElementById('occupation').value,
+                        address: document.getElementById('address').value,
+                        gender: document.getElementById('gender').value,
+                        contact: document.getElementById('contact').value,
+                        dentalInsurance: document.getElementById('dentalInsurance').value,
+                        effectiveDate: document.getElementById('effectiveDate').value,
+                    },
+                    medical: {
+                        previousDentist: document.getElementById('previousDentist').value,
+                        lastDentistVisit: document.getElementById('lastDentistVisit').value,
+                        physicianName: document.getElementById('physicianName').value,
+                        clinicAddress: document.getElementById('clinicAddress').value,
+                        officeNumber: document.getElementById('officeNumber').value,
+                        goodHealth: document.getElementById('goodHealth').value,
+                        seriousIllness: document.getElementById('seriousIllness').value,
+                        physicianSpecialty: document.getElementById('physicianSpecialty').value,
+                        medicalTreatment: document.getElementById('medicalTreatment').value,
+                        hospitalized: document.getElementById('hospitalized').value,
+                    }
+                };
+                console.log('Booking Data:', bookingData);
+                alert('✅ Appointment booked successfully!');
+                window.location.href = 'admin-appointment.html';
+            });
+
+            // ─── Init ───
+            updateSummary();
+            goToStep(1);
+
+        })();
+    </script>
+
+</body>
+</html>

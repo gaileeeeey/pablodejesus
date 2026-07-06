@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Book Appointment | Pablo-De Jesus Dental Center</title>
+    <link rel="stylesheet" href="admin-css/admin-book-appointment.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+</head>
+<body>
+    <!-- ─── SIDEBAR TOGGLE (mobile) ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+    <!-- ─── SIDEBAR OVERLAY ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>Pablo-De Jesus<br /><span>Dental Center</span></h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="admin-dash.html"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="admin-appointment.html"><i class="bi bi-person-vcard"></i> Appointments</a>
+            <a href="#" class="active"><i class="bi bi-calendar2-plus"></i> Book Appointment</a>
+            <a href="admin-services.html"><i class="fa-solid fa-tooth"></i> Services</a>
+            <a href="admin-patients.html"><i class="bi bi-people"></i> Patients</a>
+            <a href="admin-billing.html"><i class="bi bi-receipt"></i> Billing</a>
+            <a href="admin-inventory.html"><i class="bi bi-box-seam"></i> Inventory</a>
+            <a href="admin-chatbox.html"bi bi-chat-dots"></i> Chatbox</a>
+            <a href="admin-feedback.html"><i class="bi bi-star-fill"></i> Feedback</a>
+            <a href="admin-settings.html"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="greeting">
+                <h1>Book Appointment</h1>
+                <p>Respond to patient inquiries and messages</p>
+            </div>
+            <div class="user-actions" onclick="window.location.href='admin-settings.html'">
+                <span class="user-name">Admin Womark</span>
+                <i class="bi bi-person-circle user-avatar"></i>
+            </div>
+        </div>
+
+        <!-- ─── STEP PROGRESS ─── -->
+        <div class="step-progress" id="stepProgress">
+            <div class="step active" data-step="1">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Choose Service</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="2">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Schedule Date & Time</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="3">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Fill Up Details</span>
+                </div>
+            </div>
+            <div class="step-line"></div>
+            <div class="step" data-step="4">
+                <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+                <div class="step-text">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Review & Confirm</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ─── BOOKING GRID ─── -->
+        <div class="booking-grid">
+
+            <!-- LEFT: Step panels -->
+            <section class="services-section">
+                <div class="services-card" style="padding-bottom: 20px;">
+
+                    <!-- STEP 1: Choose Services -->
+                    <div class="step-panel active" id="step1">
+                        <h2>Choose Services</h2>
+                        <p class="sub-text">Select one or more services. You can add multiple services in a single
+                            appointment.</p>
+                        <div class="services-list" id="servicesList">
+                            <!-- Dental Consultation -->
+                            <label class="service-item" data-name="Dental Consultation" data-price="800"
+                                data-duration="20">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">Dental Consultation</span>
+                                    <span class="service-desc">A oral examination where the dentist evaluates your
+                                        teeth, gums, and overall oral health.</span>
+                                    <span class="service-meta"><span class="price">₱800</span> · <span
+                                            class="duration">20 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- Oral Examination -->
+                            <label class="service-item" data-name="Oral Examination" data-price="300"
+                                data-duration="20">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">Oral Examination</span>
+                                    <span class="service-desc">Assessment of teeth, gums, and oral health.</span>
+                                    <span class="service-meta"><span class="price">₱300</span> · <span
+                                            class="duration">20 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- TMJ Consultation -->
+                            <label class="service-item" data-name="TMJ Consultation" data-price="800"
+                                data-duration="30">
+                                <input type="checkbox" class="service-checkbox">
+                                <span class="checkmark"></span>
+                                <div class="service-content">
+                                    <span class="service-title">TMJ Consultation</span>
+                                    <span class="service-desc">Evaluation of jaw pain and temporomandibular joint
+                                        issues.</span>
+                                    <span class="service-meta"><span class="price">₱800</span> · <span
+                                            class="duration">30 mins</span></span>
+                                </div>
+                            </label>
+                            <!-- Oral Prophylaxis with dropdown -->
+                            <div class="service-item service-with-dropdown" data-name="Oral Prophylaxis">
+                                <div class="service-content" style="width:100%;">
+                                    <div class="service-header"
+                                        style="display:flex; align-items:center; gap:12px; width:100%; flex-wrap:wrap;">
+                                        <span class="service-title">Oral Prophylaxis</span>
+                                        <span class="service-meta" style="margin-left:auto;"><span
+                                                class="price">₱800–1,900</span></span>
+                                        <button class="dropdown-toggle" type="button">More Info</button>
+                                    </div>
+                                    <span class="service-desc">A professional oral cleaning procedure.</span>
+                                    <div class="dropdown-content">
+                                        <label class="sub-service-item" data-name="Basic Cleaning" data-price="800"
+                                            data-duration="30">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Basic Cleaning</span>
+                                                <span class="sub-desc">A routine cleaning that removes minor
+                                                    plaque.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱800</span> · 30
+                                                    mins</span>
+                                            </div>
+                                        </label>
+                                        <label class="sub-service-item" data-name="Standard Cleaning" data-price="1200"
+                                            data-duration="45">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Standard Cleaning</span>
+                                                <span class="sub-desc">Comprehensive cleaning, polishing, and root
+                                                    scaling.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱1,200</span> · 45
+                                                    mins</span>
+                                            </div>
+                                        </label>
+                                        <label class="sub-service-item" data-name="Deep Cleaning" data-price="1900"
+                                            data-duration="60">
+                                            <input type="checkbox" class="sub-service-checkbox" name="prophy">
+                                            <span class="sub-checkmark"></span>
+                                            <div class="sub-content">
+                                                <span class="sub-title">Deep Cleaning</span>
+                                                <span class="sub-desc">Advanced cleaning procedure to help treat gum
+                                                    disease.</span>
+                                                <span class="sub-meta"><span class="sub-price">₱1,900</span> · 60
+                                                    mins</span>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-nav">
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step1Next">Next Step <i
+                                    class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: Schedule Date & Time -->
+                    <div class="step-panel" id="step2">
+                        <h2>Schedule Your Appointment</h2>
+                        <p class="sub-text">Set your preferred appointment date and time.</p>
+                        <div style="margin: 16px 0 12px;">
+                            <div class="form-group" style="max-width: 300px;">
+                                <label for="apptDate">Select Date <span class="required">*</span></label>
+                                <input type="date" id="apptDate" min="">
+                            </div>
+                        </div>
+                        <div>
+                            <label style="font-weight:600; font-size:0.95rem; color:var(--text-dark);">Select Time <span
+                                    class="required">*</span></label>
+                            <div class="time-grid" id="timeGrid">
+                                <!-- times will be generated by JS -->
+                            </div>
+                        </div>
+                        <div class="step-nav">
+                            <button class="btn-prev" id="step2Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step2Next">Next Step <i
+                                    class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: Fill Up Details -->
+                    <div class="step-panel" id="step3">
+                        <h2>Patient Information</h2>
+                        <p class="sub-text">Provide your personal and medical information to continue your appointment
+                            booking.</p>
+                        <div style="margin: 12px 0 8px;">
+                            <h3 style="font-size:1.1rem; font-weight:700; color:var(--text-dark); margin-bottom:8px;">
+                                Patient Details</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name <span class="required">*</span></label>
+                                    <input type="text" id="fullName" placeholder="Full Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dob">Date of Birth <span class="required">*</span></label>
+                                    <input type="date" id="dob" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email <span class="required">*</span></label>
+                                    <input type="email" id="email" placeholder="Email" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="occupation">Occupation <span class="required">*</span></label>
+                                    <input type="text" id="occupation" placeholder="Occupation" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="address">Address <span class="required">*</span></label>
+                                    <input type="text" id="address" placeholder="Address" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="gender">Gender <span class="required">*</span></label>
+                                    <select id="gender" required>
+                                        <option value="">Gender</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="contact">Contact Number <span class="required">*</span></label>
+                                    <input type="tel" id="contact" placeholder="Contact number" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dentalInsurance">Dental Insurance</label>
+                                    <input type="text" id="dentalInsurance" placeholder="Dental Insurance (optional)">
+                                </div>
+                                <div class="form-group">
+                                    <label for="effectiveDate">Effective Date</label>
+                                    <input type="date" id="effectiveDate">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- ─── REPLACED MEDICAL HISTORY ─── -->
+                        <div style="margin-top: 16px;">
+                            <!-- Dental History -->
+                            <div class="med-section-title">Dental History</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="previousDentist">Previous Dentist</label>
+                                    <input type="text" id="previousDentist" placeholder="Previous Dentist">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastDentistVisit">Last Dentist Visit</label>
+                                    <input type="date" id="lastDentistVisit">
+                                </div>
+                            </div>
+
+                            <!-- Medical History -->
+                            <div class="med-section-title">Medical History</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="physicianName">Name of Physician <span class="required">*</span></label>
+                                    <input type="text" id="physicianName" placeholder="Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="physicianName">Speciality,if applicable<span
+                                            class="required">*</span></label>
+                                    <input type="text" id="physicianName" placeholder="N/A" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="clinicAddress">Clinic Address <span class="required">*</span></label>
+                                    <input type="text" id="clinicAddress" placeholder="244 Baliuag, Bulacan" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="officeNumber">Office Number <span class="required">*</span></label>
+                                    <input type="text" id="officeNumber" placeholder="0987-345-6578" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="goodHealth">Are you in good health? <span
+                                            class="required">*</span></label>
+                                    <select id="goodHealth" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="seriousIllness">Have you ever had serious illness or surgical operation?
+                                        <span class="required">*</span></label>
+                                    <select id="seriousIllness" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="physicianSpecialty">Specialty, if applicable</label>
+                                    <input type="text" id="physicianSpecialty" placeholder="N/A">
+                                </div>
+                                <div class="form-group">
+                                    <label for="medicalTreatment">Are you under medical treatment now? <span
+                                            class="required">*</span></label>
+                                    <select id="medicalTreatment" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospitalized">Have you ever been hospitalized? <span
+                                            class="required">*</span></label>
+                                    <select id="hospitalized" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospitalized">Are you taking any prescription/non-prescription
+                                        medication? <span class="required">*</span></label>
+                                    <select id="hospitalized" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospitalized">Do you use tobacco products? <span
+                                            class="required">*</span></label>
+                                    <select id="hospitalized" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="hospitalized">Do you use alcohol, cocaine, or other dangerous
+                                        drugs?<span class="required">*</span></label>
+                                    <select id="hospitalized" required>
+                                        <option value="">Select</option>
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-nav">
+                            <button class="btn-prev" id="step3Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                            <button class="btn-next" id="step3Next">Next Step <i
+                                    class="bi bi-chevron-right"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: Review & Confirm -->
+                    <div class="step-panel" id="step4">
+                        <h2>Review &amp; Confirm</h2>
+                        <p class="sub-text">Please review all the information below before confirming your appointment.
+                        </p>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Appointment Details
+                            </h3>
+                            <div class="review-section" id="reviewAppointment">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Patient Information
+                            </h3>
+                            <div class="review-section" id="reviewPatient">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div style="margin: 16px 0 8px;">
+                            <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Medical History</h3>
+                            <div class="review-section" id="reviewMedical">
+                                <!-- populated by JS -->
+                            </div>
+                        </div>
+
+                        <div class="review-actions">
+                            <button class="btn-edit" id="reviewEdit">← Edit Details</button>
+                            <button class="btn-confirm" id="reviewConfirm"><i class="bi bi-check-circle"></i> Confirm
+                                Appointment</button>
+                        </div>
+
+                        <div class="step-nav" style="border-top:none; padding-top:8px; margin-top:4px;">
+                            <button class="btn-prev" id="step4Prev"><i class="bi bi-chevron-left"></i> Back</button>
+                            <div class="spacer"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- RIGHT: Selected Services & Summary (visible across all steps) -->
+            <section class="summary-section">
+                <div class="summary-card">
+                    <h2>Your Selected Services</h2>
+                    <div id="selectedServicesContainer">
+                        <div class="selected-placeholder">No services selected yet.</div>
+                    </div>
+
+                    <div class="summary-totals">
+                        <div class="total-row">
+                            <span class="total-label">Total Services:</span>
+                            <span class="total-value" id="totalCount">0</span>
+                        </div>
+                        <div class="total-row">
+                            <span class="total-label">Est. Duration:</span>
+                            <span class="total-value" id="totalDuration">0 min</span>
+                        </div>
+                        <div class="total-row highlight">
+                            <span class="total-label">Total Cost:</span>
+                            <span class="total-value" id="totalCost">₱0</span>
+                        </div>
+                    </div>
+                    <p class="disclaimer">The estimated time is the total duration of all selected services. The actual
+                        time may vary depending on the doctor.</p>
+                    <div class="summary-actions">
+                        <button class="btn-proceed" id="proceedBtn">Proceed to Schedule</button>
+                        <button class="btn-clear" id="clearBtn">Clear All Selections</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <script src="admin-js/admin-book-appointment.js"></script>
+</body>
+
+</html>
