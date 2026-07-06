@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dentist Settings | Pablo-De Jesus Dental Center</title>
+    <link rel="stylesheet" href="dentist-css/dentist-settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.11.3/font/bootstrap-icons.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+
+<body>
+
+    <!-- ─── SIDEBAR TOGGLE (mobile) ─── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- ─── SIDEBAR OVERLAY ─── -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ─── SIDEBAR ─── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-brand">
+            <h2>Pablo-De Jesus<br /><span>Dental Center</span></h2>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="dentist-dash.html"><i class="bi bi-house"></i> Dashboard</a>
+            <a href="dentist-appointment.html"><i class="bi bi-person-vcard"></i> Appointments</a>
+            <a href="dentist-patients.html"><i class="bi bi-people"></i> Patients Records</a>
+            <a href="dentist-chatbox.html"><i class="bi bi-chat-dots"></i> Chatbox</a>
+            <a href="#" class="active"><i class="bi bi-gear"></i> Settings</a>
+            <a href="#" class="logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+        </nav>
+    </aside>
+
+    <!-- ─── MAIN CONTENT ─── -->
+    <main class="main-content">
+
+        <!-- TOP BAR -->
+        <div class="top-bar">
+            <div class="greeting">
+                <h1>Settings</h1>
+                <p>Manage dental center setting and security</p>
+            </div>
+            <div class="user-actions" onclick="window.location.href='dentist-settings.html'">
+                <span class="user-name">Doc Womark</span>
+                <i class="bi bi-person-circle user-avatar"></i>
+            </div>
+        </div>
+
+        <!-- ─── SETTINGS GRID ─── -->
+        <div class="settings-grid">
+
+            <!-- ─── PROFILE CARD ─── -->
+            <div class="settings-card profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar" id="profileAvatar">W</div>
+                    <div class="profile-name-area">
+                        <h2 id="profileName">Dr. Womark Salita</h2>
+                        <span class="role" id="profileRole">Dentist</span>
+                    </div>
+                    <button class="btn-edit-profile" id="editProfileBtn">
+                        <i class="bi bi-pencil"></i> Edit
+                    </button>
+                </div>
+
+                <div class="profile-info-row">
+                    <span class="label">Email</span>
+                    <span class="value" id="profileEmail">womarksalita@gmail.com</span>
+                </div>
+                <!-- You can add more fields here if needed -->
+            </div>
+
+            <!-- ─── CHANGE PASSWORD CARD ─── -->
+            <div class="settings-card password-card">
+                <h2>Change Password</h2>
+                <p class="card-subtitle">Update your dentist account password</p>
+                <form id="passwordForm">
+                    <div class="form-group">
+                        <label for="currentPassword">Current Password</label>
+                        <input type="password" id="currentPassword" placeholder="Enter current password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword" placeholder="Enter new password" />
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm New Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm new password" />
+                    </div>
+                    <button type="submit" class="change-pw-btn">
+                        <i class="bi bi-key"></i> Change Password
+                    </button>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- ─── LOGOUT CONFIRMATION MODAL ─── -->
+    <div class="logout-modal-overlay" id="logoutModal">
+        <div class="logout-modal">
+            <div class="modal-icon">
+                <i class="bi bi-box-arrow-right"></i>
+            </div>
+            <h3>Logout?</h3>
+            <p>Are you sure you want to log out? You will be redirected to the login page.</p>
+            <div class="modal-actions">
+                <button class="btn-stay" id="stayBtn">Stay</button>
+                <button class="btn-logout" id="confirmLogoutBtn">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ─── EDIT PROFILE MODAL ─── -->
+    <div class="edit-modal-overlay" id="editProfileModal">
+        <div class="edit-modal">
+            <div class="modal-header">
+                <h2>Edit Profile</h2>
+                <button class="modal-close" id="editModalClose"><i class="bi bi-x-lg"></i></button>
+            </div>
+
+            <form id="editProfileForm">
+                <!-- Email field (read-only display) -->
+                <div class="form-group">
+                    <label for="editEmailDisplay">Email</label>
+                    <input type="email" id="editEmailDisplay" value="rosa.garcia@gmail.com" disabled style="background:#f3f4f6; color:var(--text-muted);" />
+                </div>
+
+                <hr class="section-divider" />
+
+                <!-- Change your Email -->
+                <div style="margin-bottom: 8px;">
+                    <h3 style="font-size:1.05rem; font-weight:700; color:var(--text-dark);">Change your Email</h3>
+                </div>
+
+                <div class="form-group">
+                    <label for="editCurrentEmail">Current Email</label>
+                    <input type="email" id="editCurrentEmail" placeholder="Enter current email" />
+                </div>
+
+                <div class="form-group">
+                    <label for="editNewEmail">New Email</label>
+                    <input type="email" id="editNewEmail" placeholder="Enter new email" />
+                </div>
+
+                <div class="modal-actions" style="border-top:none; padding-top:0; margin-top:8px;">
+                    <button type="button" class="btn-cancel" id="editModalCancel">Cancel</button>
+                    <button type="submit" class="btn-save"><i class="bi bi-envelope"></i> Change Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="dentist-js/dentist-settings..js"></script>
+</body>
+</html>
